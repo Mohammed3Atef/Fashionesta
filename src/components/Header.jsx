@@ -1,7 +1,6 @@
-import FixedBottomNavigation from "./Bottom-Nav";
-import Categories from "./Categories";
-import ImgMediaCard from "./Products-test";
 import SearchBar from "./Search-Bar";
+import Categories from "./Categories";
+import FixedBottomNavigation from "./Bottom-Nav";
 
 export default function Header() {
   return (
