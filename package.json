@@ -1,14 +1,16 @@
 {
+  "homepage": "https://Mohammed3Atef.github.io/Fashionesta",
   "name": "react-app",
   "private": true,
-  "homepage": "https://Mohammed3Atef.github.io/Fashionesta",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview --port 8080"
+    "preview": "vite preview ",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
