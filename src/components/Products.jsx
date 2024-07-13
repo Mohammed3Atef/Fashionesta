@@ -67,7 +67,7 @@ export default function ProductsList() {
         {products.map((product, index) => (
           <div
             key={index}
-            className="relative  flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
+            className="relative  flex justify-self-center w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
           >
             <Link
               to={`/product/${product.id}`}
