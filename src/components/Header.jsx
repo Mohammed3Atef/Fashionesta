@@ -7,7 +7,7 @@ export default function Header() {
     <div className="">
       <SearchBar />
       <Categories />
-      <FixedBottomNavigation />
+      {/* <FixedBottomNavigation /> */}
     </div>
   );
 }

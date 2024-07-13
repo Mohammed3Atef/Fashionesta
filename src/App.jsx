@@ -1,14 +1,17 @@
 import "./App.css";
+import { OrbitSpace } from "orbit-space";
+
 import Header from "./components/Header";
 import CoverArea from "./components/Cover-Area";
-import GetProducts from "./components/Products";
 import CategoriesSlider from "./components/Slide-Show";
 
 import Footer from "./components/Footer";
 import { Routes, Route, Link } from "react-router-dom";
 import ProductDetails from "./components/ProductDetails";
 import ProductsList from "./components/Products";
-import Form from "./components/Form";
+import CreateProduct from "./components/CreateProduct";
+import EditProduct from "./components/EditProduct";
+import Cart from "./components/Cart";
 
 function App() {
   return (
@@ -27,7 +30,9 @@ function App() {
           }
         />
         <Route path="product/:productId" element={<ProductDetails />} />
-        <Route path="Form" element={<Form />} />
+        <Route path="CreateProduct" element={<CreateProduct />} />
+        <Route path="EditProduct/:productId" element={<EditProduct />} />
+        <Route path="Cart" element={<Cart />} />
       </Routes>
     </div>
   );

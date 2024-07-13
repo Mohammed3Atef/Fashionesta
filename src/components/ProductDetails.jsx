@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ProductDetails() {
   const productUrl =
@@ -56,9 +56,11 @@ export default function ProductDetails() {
         <div className="max-w-[500px]">
           <p className="mb-3.5">{product.description}</p>
           <p>Price: ${product.price}</p>
-          <button className="bg-green-600 text-white py-[14px] px-[30px] rounded mt-5 transition-[0.3s] hover:bg-green-500 hover:scale-105 ">
-            Add to cart
-          </button>
+          <Link to={`/EditProduct/${product.id}`}>
+            <button className="bg-green-600 text-white py-[14px] px-[30px] rounded mt-5 transition-[0.3s] hover:bg-green-500 hover:scale-105 ">
+              Edit Product
+            </button>
+          </Link>
         </div>
       </div>
     </div>

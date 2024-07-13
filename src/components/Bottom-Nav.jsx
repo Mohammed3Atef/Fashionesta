@@ -15,7 +15,7 @@ export default function FixedBottomNavigation() {
     <Paper
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
-      className="lg:hidden"
+      className="lg:hidden z-20"
     >
       <BottomNavigation
         showLabels

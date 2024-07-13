@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function Form() {
+export default function EditProduct() {
   const navigate = useNavigate();
+  const { productId } = useParams();
 
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
     name: "",
     slug: "",
     price: "",
-    categories: "",
     thumb: "",
+    categories: "", // assuming categories are stored as ID
   });
 
+  // Fetch categories
   useEffect(() => {
     fetch("https://api.easy-orders.net/api/v1/external-apps/categories", {
       headers: {
@@ -37,24 +39,65 @@ export default function Form() {
       });
   }, []);
 
+  // Fetch product data for editing
+  useEffect(() => {
+    fetch(
+      `https://api.easy-orders.net/api/v1/external-apps/products/${productId}`,
+      {
+        headers: {
+          "Api-Key": "3807b462-a905-455f-93c2-43ceb58774cd",
+        },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((product) => {
+        setData({
+          name: product.name,
+          slug: product.slug,
+          price: product.price.toString(),
+          thumb: product.thumb,
+          categories: product.categories[0]?.id || "", // Assuming categories are stored as ID
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching product data:", error);
+      });
+  }, [productId]);
+
+  // Handle form input changes
+  const handleValue = (e) => {
+    const { id, value } = e.target;
+    setData((prevData) => ({ ...prevData, [id]: value }));
+  };
+
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const productData = {
       name: data.name,
       slug: data.slug,
       price: parseFloat(data.price),
-      category: [{ id: data.categories }],
       thumb: data.thumb,
+      categories: [{ id: data.categories }],
     };
 
-    fetch("https://api.easy-orders.net/api/v1/external-apps/products", {
-      method: "POST",
-      headers: {
-        "Api-Key": "3807b462-a905-455f-93c2-43ceb58774cd",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
-    })
+    fetch(
+      `https://api.easy-orders.net/api/v1/external-apps/products/${productId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Api-Key": "3807b462-a905-455f-93c2-43ceb58774cd",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           return response.json().then((error) => {
@@ -65,26 +108,16 @@ export default function Form() {
       })
       .then((responseData) => {
         console.log("Response data:", responseData);
-        console.log("Response data.idd:", data.id);
-        console.log("Response data.id:", responseData.id);
-        console.log("Response data.idddd:", responseData.data.id);
-
-        navigate(`/product/${responseData.id}`);
+        navigate(`/product/${productId}`); // Navigate to product details page after successful update
       })
       .catch((error) => {
         console.error("Error posting product data:", error);
       });
   };
 
-  const handleValue = (e) => {
-    const { id, value } = e.target;
-    setData((prevData) => ({ ...prevData, [id]: value }));
-    console.log("Updated form data:", { ...data, [id]: value });
-  };
-
   return (
     <div className="p-10">
-      <h1 className="max-w-md mx-auto text-3xl mb-8">Product Info</h1>
+      <h1 className="max-w-md mx-auto text-3xl mb-8">Edit Product</h1>
       <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
         <div className="relative z-0 w-full mb-5 group">
           <input

@@ -36,7 +36,7 @@ export default function Categories() {
   }, []);
   return (
     <div className="shadow-[0px_4px_11px_0px_#00000045] px-[100px] hidden lg:block ">
-      <ul className="flex gap-10 items-center justify-center ">
+      <ul className="flex gap-8 items-center justify-center ">
         <Link to={`/`}>
           <li className=" text-xl py-[15px] cursor-pointer transition-[0.3s] hover:border-b hover:border-[black] hover:scale-110">
             All
