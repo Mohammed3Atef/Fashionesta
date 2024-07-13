@@ -28,10 +28,10 @@ export default function ProductDetails() {
             <div className="flex -mx-2 mb-4">
               <div className="w-1/2 px-2">
                 <button
-                  onClick={() => dispatch(addToCart(ProductDetails))}
+                  // onClick={() => dispatch(addToCart(ProductDetails))}
                   className="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800"
                 >
-                  Add to Cart
+                  Buy Now
                 </button>
               </div>
               <div className="w-1/2 px-2">
