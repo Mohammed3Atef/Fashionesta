@@ -46,13 +46,32 @@ export default function ProductsList() {
   //     });
   // }, [searchParams]);
 
-  const products = useSelector((state) => state.products);
+  const {
+    data: products,
+    loading,
+    error,
+  } = useSelector((state) => state.products);
   console.log(products);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
+  if (loading) {
+    return (
+      <div className="min-h-[100svh] flex items-center justify-center">
+        <div className=" border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!products) {
+    return null;
+  }
 
   return (
     <div className="p-[15px] lg:px-[100px] mt-[75px] ">
@@ -158,11 +177,11 @@ export default function ProductsList() {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>

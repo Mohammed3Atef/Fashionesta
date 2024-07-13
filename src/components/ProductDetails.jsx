@@ -7,11 +7,30 @@ import { addToCart } from "../rtk/slices/cart-slice";
 export default function ProductDetails() {
   const { productId } = useParams();
   const dispatch = useDispatch();
-  const productDetails = useSelector((state) => state.productDetails);
-  console.log(productDetails);
+  const {
+    data: productDetails,
+    loading,
+    error,
+  } = useSelector((state) => state.productDetails);
   useEffect(() => {
     dispatch(fetchProductById(productId));
   }, [dispatch, productId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-[100svh] flex items-center justify-center">
+        <div className=" border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!productDetails) {
+    return null;
+  }
 
   return (
     <div className="bg-gray-100  py-8 mt-[75px] ">

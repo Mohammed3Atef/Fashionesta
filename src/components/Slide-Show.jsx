@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "tailwindcss/tailwind.css"; // Ensure Tailwind CSS is imported
 
 export default function CategoriesSlider() {
   const [categories, setCategories] = useState([]);
@@ -24,7 +24,6 @@ export default function CategoriesSlider() {
         return response.json();
       })
       .then((data) => {
-        // Extract the relevant information
         const categoriesData = data.map((category) => ({
           name: category.name,
           thumb: category.thumb,
@@ -47,33 +46,54 @@ export default function CategoriesSlider() {
     slidesToScroll: 1,
     autoplay: true,
     speed: 2000,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 2000,
     cssEase: "linear",
-    bool: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
   };
+
   return (
-    <div className="slider-container w-full overflow-hidden px-[50px] bg-[#fff]">
-      <div className="  text-xl mb-3.5 text-bold ">
+    <div className="w-full overflow-hidden px-6 bg-white flex flex-col items-center">
+      <div className="text-xl mb-4 font-bold text-center">
         <h3>Categories</h3>
       </div>
-      <Slider {...settings}>
-        {categories.map((category) => {
-          return (
-            <Link to={`/?category=${category.id}`}>
-              <div
-                key={category.id}
-                className=" text-center  rounded overflow-hidden max-w-[160px]"
-              >
-                <img
-                  src={category.thumb}
-                  alt={category.name}
-                  className=" max-h-[160px] w-full  mb-2"
-                />
-                <h3 className="text-bold">{category.name}</h3>
-              </div>
-            </Link>
-          );
-        })}
+      {loading && (
+        <div className="min-h-[100svh] flex items-center justify-center">
+          <div className=" border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+        </div>
+      )}
+      {error && <div>Error: {error.message}</div>}
+      <Slider {...settings} className="w-full">
+        {categories.map((category) => (
+          <Link to={`/?category=${category.id}`} key={category.id}>
+            <div className="text-center rounded overflow-hidden max-w-[160px] mx-auto">
+              <img
+                src={category.thumb}
+                alt={category.name}
+                className="max-h-[160px] w-full mb-2 rounded"
+              />
+              <h3 className="font-bold text-lg">{category.name}</h3>
+            </div>
+          </Link>
+        ))}
       </Slider>
     </div>
   );
