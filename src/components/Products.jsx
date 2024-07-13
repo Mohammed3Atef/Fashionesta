@@ -55,7 +55,7 @@ export default function ProductsList() {
   }, []);
 
   return (
-    <div className="p-[15px] lg:px-[100px]">
+    <div className="p-[15px] lg:px-[100px] lg:mt-[100px] mt-[130px]">
       <div className="flex justify-between p-[15px]  shadow-[0px_4px_11px_0px_#00000045] mb-3.5 ">
         <h3>New Arrive</h3>
         <span>More!</span>

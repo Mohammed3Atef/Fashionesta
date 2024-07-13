@@ -22,7 +22,7 @@ export default function Cart() {
 
   return (
     <>
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto mt-10 lg:mt-[100px] mt-[130px]">
         <div className="sm:flex shadow-md my-10 border-black border">
           <div className="  w-full  sm:w-3/4 bg-white px-10 py-10">
             <div className="flex justify-between border-b pb-8">

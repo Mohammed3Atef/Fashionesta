@@ -4,9 +4,9 @@ import FixedBottomNavigation from "./Bottom-Nav";
 
 export default function Header() {
   return (
-    <div className="">
+    <div className="fixed w-full top-0 z-20">
       <SearchBar />
-      <Categories />
+      {/* <Categories /> */}
       {/* <FixedBottomNavigation /> */}
     </div>
   );
