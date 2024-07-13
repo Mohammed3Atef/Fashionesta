@@ -25,7 +25,6 @@ function App() {
               {/* <CoverArea /> */}
               <ProductsList />
               <CategoriesSlider />
-              <Footer />
             </>
           }
         />
@@ -34,6 +33,7 @@ function App() {
         <Route path="EditProduct/:productId" element={<EditProduct />} />
         <Route path="Cart" element={<Cart />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
