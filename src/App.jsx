@@ -12,6 +12,7 @@ import ProductsList from "./components/Products";
 import CreateProduct from "./components/CreateProduct";
 import EditProduct from "./components/EditProduct";
 import Cart from "./components/Cart";
+import About from "./components/about";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="CreateProduct" element={<CreateProduct />} />
         <Route path="EditProduct/:productId" element={<EditProduct />} />
         <Route path="Cart" element={<Cart />} />
+        <Route path="About" element={<About />} />
       </Routes>
       <Footer />
     </div>
