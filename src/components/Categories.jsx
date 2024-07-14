@@ -1,39 +1,41 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchCategories } from "../rtk/slices/category-slice";
 
 export default function Categories() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [categories, setCategories] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+
+  const {
+    data: categories,
+    loading,
+    error,
+  } = useSelector((state) => state.categories);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://api.easy-orders.net/api/v1/external-apps/categories", {
-      headers: {
-        "Api-Key": "3807b462-a905-455f-93c2-43ceb58774cd",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Extract the relevant information
-        const categoriesData = data.map((category) => ({
-          name: category.name,
-          thumb: category.thumb,
-          id: category.id,
-        }));
-        setCategories(categoriesData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching product data:", error);
-        setError(error);
-        setLoading(false);
-      });
+    dispatch(fetchCategories());
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-[100svh] flex items-center justify-center">
+        <div className=" border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!categories) {
+    return null;
+  }
+
   return (
     <div className="shadow-[0px_4px_11px_0px_#00000045] px-[100px] hidden lg:block ">
       <ul className="flex gap-8 items-center justify-center ">

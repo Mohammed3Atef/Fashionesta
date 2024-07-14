@@ -1,7 +1,7 @@
 export default function About() {
   return (
     <>
-      <div className="sm:flex items-center max-w-screen-xl">
+      <div className="sm:flex items-center max-w-screen-xl mt-[100px]">
         <div className="sm:w-1/2 p-10">
           <div className="image object-center text-center ">
             <img src="https://i.imgur.com/WbQnbas.png" className="w-full " />

@@ -5,39 +5,37 @@ import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "tailwindcss/tailwind.css"; // Ensure Tailwind CSS is imported
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../rtk/slices/category-slice";
 
 export default function CategoriesSlider() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data: categories,
+    loading,
+    error,
+  } = useSelector((state) => state.categories);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://api.easy-orders.net/api/v1/external-apps/categories", {
-      headers: {
-        "Api-Key": "3807b462-a905-455f-93c2-43ceb58774cd",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const categoriesData = data.map((category) => ({
-          name: category.name,
-          thumb: category.thumb,
-          id: category.id,
-        }));
-        setCategories(categoriesData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching product data:", error);
-        setError(error);
-        setLoading(false);
-      });
+    dispatch(fetchCategories());
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-[100svh] flex items-center justify-center">
+        <div className=" border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!categories) {
+    return null;
+  }
 
   const settings = {
     dots: true,
