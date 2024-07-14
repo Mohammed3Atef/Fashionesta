@@ -1,16 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteFromCart, updateQuantity } from "../rtk/slices/cart-slice";
-import { useState } from "react";
+import {
+  deleteFromWishlist,
+  updateQuantity,
+} from "../rtk/slices/wishlist-slice";
 
-export default function Cart() {
-  const cart = useSelector((state) => state.cart);
+export default function Wishlist() {
+  const wishlist = useSelector((state) => state.wishList);
   const dispatch = useDispatch();
-  const totalPrice = cart.reduce((acc, product) => {
+  const totalPrice = wishlist.reduce((acc, product) => {
     acc += product.price * product.quantity;
     return acc;
   }, 0);
-  const totalItems = cart.reduce((acc, product) => {
+  const totalItems = wishlist.reduce((acc, product) => {
     acc += product.quantity;
     return acc;
   }, 0);
@@ -24,12 +26,28 @@ export default function Cart() {
     <>
       <div className="container mx-auto mt-10 mt-[75px] ">
         <div className="sm:flex shadow-md my-10 border-black border">
-          <div className="  w-full  sm:w-3/4 bg-white px-10 py-10">
+          <div className="w-full mx-auto sm:w-3/4 bg-white px-10 py-10">
             <div className="flex justify-between border-b pb-8">
-              <h1 className="font-semibold text-2xl">Shopping Cart</h1>
+              <h1 className="font-semibold text-2xl flex items-center ">
+                Favorites List{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 ml-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>{" "}
+              </h1>
               <h2 className="font-semibold text-2xl">{totalItems} Items</h2>
             </div>
-            {cart.map((product, index) => (
+            {wishlist.map((product, index) => (
               <div
                 key={index}
                 className="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50"
@@ -76,14 +94,6 @@ export default function Cart() {
                         +
                       </span>
                     </div>
-                    {/* <select
-                      aria-label="Select quantity"
-                      className="py-2 px-1 border border-gray-200 mr-6 focus:outline-none"
-                    >
-                      <option>01</option>
-                      <option>02</option>
-                      <option>03</option>
-                    </select> */}
                   </div>
                   <p className="text-xs leading-3 text-gray-600 pt-2">
                     Height: 10 inches
@@ -97,10 +107,10 @@ export default function Cart() {
                   <div className="flex items-center justify-between pt-5">
                     <div className="flex itemms-center">
                       <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
-                        Add to favorites
+                        Add to cart
                       </p>
                       <p
-                        onClick={() => dispatch(deleteFromCart(product))}
+                        onClick={() => dispatch(deleteFromWishlist(product))}
                         className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer"
                       >
                         Remove
@@ -137,10 +147,7 @@ export default function Cart() {
               Continue Shopping
             </Link>
           </div>
-          <div
-            id="summary"
-            className=" w-full   sm:w-1/4   md:w-1/2     px-8 py-10"
-          >
+          {/* <div id="summary" className="w-full sm:w-1/4 md:w-1/2 px-8 py-10">
             <h1 className="font-semibold text-2xl border-b pb-8">
               Order Summary
             </h1>
@@ -184,7 +191,7 @@ export default function Cart() {
                 Checkout
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

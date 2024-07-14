@@ -1,25 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import logo from "../../src/assets/logo.jpg";
 
 export default function Header() {
   const cart = useSelector((state) => state.cart);
+  const wishlist = useSelector((state) => state.wishList);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        sidebarOpen &&
+        !event.target.closest(".sidebar") &&
+        !event.target.closest(".toggle-sidebar-button")
+      ) {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [sidebarOpen]);
 
   return (
     <>
       <div className="fixed top-0 z-20 flex flex-wrap ">
         <section className="relative mx-auto">
+          {/* Sidebar */}
+          <div
+            className={`absolute bg-gray-800 text-white w-56 min-h-screen overflow-y-auto transition-transform transform ${
+              sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } ease-in-out duration-300 sidebar`}
+          >
+            {/* Sidebar Content */}
+            <div className="p-4">
+              <Link
+                to="/"
+                className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-300"
+                onClick={closeSidebar}
+              >
+                <img src={logo} className="h-12 mr-3 sm:h-9" alt="" />
+                Fashion
+              </Link>
+              <ul className="mt-4">
+                <li className="mb-2">
+                  <Link
+                    to="/"
+                    className="hover:text-gray-200"
+                    onClick={closeSidebar}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="mb-2">
+                  <a
+                    className="hover:text-gray-200"
+                    href="#"
+                    onClick={closeSidebar}
+                  >
+                    Category
+                  </a>
+                </li>
+                <li className="mb-2">
+                  <Link
+                    to="About"
+                    className="hover:text-gray-200"
+                    onClick={closeSidebar}
+                  >
+                    About
+                  </Link>
+                </li>
+                <li className="mb-2">
+                  <a
+                    className="hover:text-gray-200"
+                    href="#"
+                    onClick={closeSidebar}
+                  >
+                    Contact Us
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
           {/* <!-- navbar --> */}
           <nav className="flex justify-between bg-gray-900 text-white w-screen">
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
               <Link to="/" className="text-3xl font-bold font-heading" href="#">
-                {/* <!-- <img className="h-9" src="logo.png" alt="logo"> --> */}
                 Fashion
               </Link>
               {/* <!-- Nav Links --> */}
               <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
                 <li>
-                  <Link to="/" className="hover:text-gray-200" href="#">
+                  <Link to="/" className="hover:text-gray-200">
                     Home
                   </Link>
                 </li>
@@ -29,7 +112,7 @@ export default function Header() {
                   </a>
                 </li>
                 <li>
-                  <Link to="About" className="hover:text-gray-200" href="#">
+                  <Link to="About" className="hover:text-gray-200">
                     About
                   </Link>
                 </li>
@@ -41,7 +124,7 @@ export default function Header() {
               </ul>
               {/* <!-- Header Icons --> */}
               <div className="hidden xl:flex items-center space-x-5 items-center">
-                <a className="hover:text-gray-200" href="#">
+                <Link to="wishlist" className="hover:text-gray-200" href="#">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -56,11 +139,19 @@ export default function Header() {
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     />
                   </svg>
-                </a>
+
+                  {wishlist.length > 0 && (
+                    <span className="flex absolute -mt-8 ml-4">
+                      <span className="animate-ping absolute inline-flex h-5 w-5 rounded-full bg-pink-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-5 w-5 bg-pink-500 items-center justify-center">
+                        <span className="">{wishlist.length}</span>
+                      </span>
+                    </span>
+                  )}
+                </Link>
                 <Link
                   to="cart"
                   className="flex items-center hover:text-gray-200"
-                  href="#"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +176,7 @@ export default function Header() {
                     </span>
                   )}
                 </Link>
-                {/* <!-- Sign In / Register      --> */}
+                {/* <!-- Sign In / Register --> */}
                 <a className="flex items-center hover:text-gray-200" href="#">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -105,11 +196,32 @@ export default function Header() {
               </div>
             </div>
             {/* <!-- Responsive navbar --> */}
-            <Link
-              to="cart"
-              className="xl:hidden flex mr-6 items-center"
-              href="#"
-            >
+            <Link to="wishlist" className="xl:hidden flex mr-5 items-center ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+
+              {wishlist.length > 0 && (
+                <span className="flex absolute -mt-5 ml-4">
+                  <span className="animate-ping absolute inline-flex h-5 w-5 rounded-full bg-pink-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-5 w-5 bg-pink-500 items-center justify-center">
+                    <span className="">{wishlist.length}</span>
+                  </span>
+                </span>
+              )}
+            </Link>
+            <Link to="cart" className="xl:hidden flex mr-5 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 hover:text-gray-200"
@@ -133,22 +245,25 @@ export default function Header() {
                 </span>
               )}
             </Link>
-            <a className="navbar-burger self-center mr-12 xl:hidden" href="#">
+            <button
+              className="text-gray-500 hover:text-gray-600 self-center mr-5 xl:hidden toggle-sidebar-button"
+              onClick={toggleSidebar}
+            >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 hover:text-gray-200"
+                className="w-6 h-6"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h16M4 18h16"
-                />
+                ></path>
               </svg>
-            </a>
+            </button>
           </nav>
         </section>
       </div>
