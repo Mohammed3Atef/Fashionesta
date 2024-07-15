@@ -60,9 +60,13 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
-                  <a className="hover:text-gray-200" href="#">
+                  <Link
+                    to="categories-filter"
+                    className="hover:text-gray-200"
+                    href="#"
+                  >
                     Category
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <Link to="About" className="hover:text-gray-200">

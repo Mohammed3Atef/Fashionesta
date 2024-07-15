@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../rtk/slices/category-slice";
 import { MdOutlineArrowDropDown } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function CategoriesList() {
   const {
@@ -10,6 +11,7 @@ export default function CategoriesList() {
     loading,
     error,
   } = useSelector((state) => state.categories);
+  console.log(categories);
 
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +46,7 @@ export default function CategoriesList() {
         onClick={toggleDropdown}
         className="cursor-pointer flex items-center justify-between"
       >
-        <li>Categories</li>
+        <h1>Categories</h1>
         <span>
           <MdOutlineArrowDropDown />
         </span>
@@ -52,7 +54,11 @@ export default function CategoriesList() {
       {isOpen && (
         <ul className="ml-5">
           {categories.map((category, index) => (
-            <li key={index}>{category.name}</li>
+            <li key={index}>
+              <Link to={`/categories-filter?category=${category.id}`}>
+                {category.name}
+              </Link>
+            </li>
           ))}
         </ul>
       )}
